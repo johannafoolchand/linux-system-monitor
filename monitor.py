@@ -2,8 +2,10 @@
 
 from __future__ import annotations
 
-import shutil
+import argparse
+import json
 import platform
+import shutil
 
 import psutil
 
@@ -38,9 +40,23 @@ def display_metrics(metrics: dict[str, float | str]) -> None:
     print("=" * 42)
 
 
-def main() -> None:
-    """Run the system monitor."""
-    display_metrics(collect_metrics())
+def main(argv: list[str] | None = None) -> None:
+    """Run the system monitor with optional machine-readable JSON output."""
+    parser = argparse.ArgumentParser(
+        description="Display CPU, memory and disk usage."
+    )
+    parser.add_argument(
+        "--json",
+        action="store_true",
+        help="Print metrics as JSON instead of a formatted terminal report.",
+    )
+    args = parser.parse_args(argv)
+
+    metrics = collect_metrics()
+    if args.json:
+        print(json.dumps(metrics, indent=2))
+    else:
+        display_metrics(metrics)
 
 
 if __name__ == "__main__":
