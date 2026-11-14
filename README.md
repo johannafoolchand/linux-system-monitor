@@ -4,7 +4,7 @@
 
 ![Python](https://img.shields.io/badge/Python-3.10%2B-9B8AC4?style=flat-square&logo=python&logoColor=white)
 ![Platform](https://img.shields.io/badge/Platform-Linux%20%7C%20macOS-C9A7C8?style=flat-square)
-![Tests](https://img.shields.io/badge/Tests-unittest-B7A6D8?style=flat-square)
+[![Tests](https://github.com/johannafoolchand/linux-system-monitor/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/johannafoolchand/linux-system-monitor/actions/workflows/tests.yml)
 
 A small systems-monitoring project built to practise Python, Linux fundamentals, dependency management and CI automation. The visual identity is intentionally soft; the implementation stays focused on readable, maintainable code.
 
