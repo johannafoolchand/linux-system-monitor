@@ -36,6 +36,17 @@ class CollectMetricsTests(unittest.TestCase):
         self.assertEqual(metrics["disk_free_gb"], 75.0)
 
 
+class CommandLineTests(unittest.TestCase):
+    @patch("monitor.collect_metrics", return_value={"cpu_percent": 12.5})
+    @patch("builtins.print")
+    def test_json_option_outputs_machine_readable_metrics(
+        self, mocked_print, _collect_metrics
+    ):
+        monitor.main(["--json"])
+
+        mocked_print.assert_called_once_with('{\n  "cpu_percent": 12.5\n}')
+
+
 class DisplayMetricsTests(unittest.TestCase):
     def test_display_metrics_prints_summary(self):
         metrics = {
