@@ -1,53 +1,47 @@
+"""Display a snapshot of CPU, memory and disk usage."""
 
-import platform
+from __future__ import annotations
+
 import shutil
-import os
-import time
+import platform
+
 import psutil
 
-def afficher_systeme():
-    print("=" * 40)
-    print("         SYSTEM MONITOR")
-    print("=" * 40)
 
-    print(f"Système : {platform.system()}")
-    print(f"Version : {platform.release()}")
-    # Surveillance du processeur et de la mémoire
-    cpu = psutil.cpu_percent(interval=1)
-    ram = psutil.virtual_memory()
+def collect_metrics() -> dict[str, float | str]:
+    """Collect system information and return normalised metrics."""
+    memory = psutil.virtual_memory()
+    disk = shutil.disk_usage("/")
 
-    print(f"CPU utilisé : {cpu}%")
-    print(f"RAM utilisée : {ram.percent}%")
-    print(f"RAM disponible : {ram.available / (1024 ** 3):.2f} Go")
+    return {
+        "system": platform.system(),
+        "release": platform.release(),
+        "cpu_percent": psutil.cpu_percent(interval=1),
+        "memory_percent": memory.percent,
+        "memory_available_gb": memory.available / (1024**3),
+        "disk_percent": disk.used / disk.total * 100,
+        "disk_free_gb": disk.free / (1024**3),
+    }
 
-    # Espace disque
-    total, utilise, libre = shutil.disk_usage("/")
 
-    pourcentage_disque = (utilise / total) * 100
+def display_metrics(metrics: dict[str, float | str]) -> None:
+    """Print collected metrics in a readable terminal layout."""
+    print("=" * 42)
+    print("             SYSTEM MONITOR")
+    print("=" * 42)
+    print(f"System          : {metrics['system']} {metrics['release']}")
+    print(f"CPU usage       : {metrics['cpu_percent']:.1f}%")
+    print(f"RAM usage       : {metrics['memory_percent']:.1f}%")
+    print(f"RAM available   : {metrics['memory_available_gb']:.2f} GB")
+    print(f"Disk usage      : {metrics['disk_percent']:.1f}%")
+    print(f"Disk free       : {metrics['disk_free_gb']:.2f} GB")
+    print("=" * 42)
 
-    print(f"Disque utilisé : {pourcentage_disque:.1f}%")
-    print(f"Espace libre : {libre / (1024 ** 3):.2f} Go")
 
-    # Mémoire vive
-    if os.path.exists("/proc/meminfo"):
-        with open("/proc/meminfo", "r") as fichier:
-            lignes = fichier.readlines()
+def main() -> None:
+    """Run the system monitor."""
+    display_metrics(collect_metrics())
 
-        memoire = {}
-        for ligne in lignes:
-            cle, valeur = ligne.split(":", 1)
-            memoire[cle] = int(valeur.strip().split()[0])
-
-        total_ram = memoire["MemTotal"]
-        disponible_ram = memoire["MemAvailable"]
-        ram_utilisee = total_ram - disponible_ram
-        pourcentage_ram = (ram_utilisee / total_ram) * 100
-
-        print(f"RAM utilisée : {pourcentage_ram:.1f}%")
-    else:
-        print("RAM détaillée : affichée si disponible sur le système")
 
 if __name__ == "__main__":
-    afficher_systeme()
-
-
+    main()
