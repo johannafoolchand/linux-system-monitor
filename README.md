@@ -93,7 +93,7 @@ linux-system-monitor/
 
 - [ ] Add a continuous refresh mode
 - [ ] Add configurable warning thresholds
-- [ ] Export metrics to JSON
+- [x] Export metrics to JSON
 - [ ] Package the tool for easier installation
 
 ---
