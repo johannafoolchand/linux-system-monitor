@@ -16,6 +16,24 @@ A small systems-monitoring project built to practise Python, Linux fundamentals,
 - Human-readable output in the terminal
 - Automated tests and GitHub Actions checks
 
+## Architecture
+
+The script collects a one-time snapshot, normalises the values in a dictionary, then formats the result for terminal output.
+
+```mermaid
+flowchart TD
+    A["User runs monitor.py"] --> B["main()"]
+    B --> C["collect_metrics()"]
+    C --> D["psutil: CPU and RAM"]
+    C --> E["shutil: disk usage"]
+    C --> F["platform: OS details"]
+    D --> G["Metrics dictionary"]
+    E --> G
+    F --> G
+    G --> H["display_metrics()"]
+    H --> I["Terminal report"]
+```
+
 ## Preview
 
 Run the script to display a snapshot of your machine's current resource usage.
