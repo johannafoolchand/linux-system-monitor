@@ -1,30 +1,83 @@
-# Linux System Monitor
+# ✦ Linux System Monitor
 
-## Présentation
+> A lightweight Python tool to inspect CPU, memory and disk usage from your terminal.
 
-Linux System Monitor est un projet Python de surveillance système. Il permet d’afficher dans le terminal plusieurs indicateurs de performance :
+![Python](https://img.shields.io/badge/Python-3.10%2B-9B8AC4?style=flat-square&logo=python&logoColor=white)
+![Platform](https://img.shields.io/badge/Platform-Linux%20%7C%20macOS-C9A7C8?style=flat-square)
+![Tests](https://img.shields.io/badge/Tests-unittest-B7A6D8?style=flat-square)
 
-- L’utilisation du processeur (CPU)
-- L’utilisation de la mémoire vive (RAM)
-- La mémoire disponible
-- L’espace disque utilisé et disponible
+A small systems-monitoring project built to practise Python, Linux fundamentals, dependency management and CI automation. The visual identity is intentionally soft; the implementation stays focused on readable, maintainable code.
 
-Le projet utilise la bibliothèque `psutil` pour récupérer les informations système. Il est actuellement testé sur macOS, avec un objectif de compatibilité Linux.
+## Features
+
+- CPU usage percentage
+- RAM usage and available memory
+- Disk usage and free space for the root filesystem
+- Human-readable output in the terminal
+- Automated tests and GitHub Actions checks
+
+## Preview
+
+Run the script to display a snapshot of your machine's current resource usage.
+
+## Requirements
+
+- Python 3.10 or newer
+- Linux or macOS
+- `psutil`
+
 ## Installation
 
-Cloner le dépôt :
+```bash
+git clone https://github.com/johannafoolchand/linux-system-monitor.git
+cd linux-system-monitor
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements.txt
+```
+
+## Usage
 
 ```bash
-git clone https://github.com/johannafooolchand/linux-system-monitor.git
-cd linux-system-monitor
-Installer la dependance :
-python3 -m pip install psutil
+python monitor.py
+```
 
-Utilisation :
-python3 monitor.py
+## Run the tests
 
-Technologies :
-- Python 3
-- psutil
-- Git et GitHub
-- macOS et Linux
+```bash
+python -m unittest discover -s tests -v
+```
+
+## Project structure
+
+```text
+linux-system-monitor/
+├── .github/
+│   └── workflows/
+│       └── tests.yml
+├── tests/
+│   └── test_monitor.py
+├── .gitignore
+├── monitor.py
+├── requirements.txt
+└── README.md
+```
+
+## What I practised
+
+- Collecting system metrics with Python and `psutil`
+- Working with CPU, memory and disk information
+- Organising code into reusable functions
+- Writing unit tests with mocks
+- Automating checks with GitHub Actions
+
+## Roadmap
+
+- [ ] Add a continuous refresh mode
+- [ ] Add configurable warning thresholds
+- [ ] Export metrics to JSON
+- [ ] Package the tool for easier installation
+
+---
+
+Made with care by [Johanna Foolchand](https://github.com/johannafoolchand).
